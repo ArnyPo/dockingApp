@@ -23,7 +23,7 @@ public class P2RankPanel extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 
-        String[] commands = {"predict", "eval"};
+        String[] commands = {"predict", "rescore"};
         JComboBox<String> commandDropdown = new JComboBox<>(commands);
         commandDropdown.setBorder(BorderFactory.createTitledBorder("P2Rank function"));
         this.add(commandDropdown);
@@ -69,9 +69,16 @@ public class P2RankPanel extends JPanel {
                     } else{
                         p2Rank.predictSimple(strucFileChooser.getText(),outDir.getText());
                     }
-                } else if (commandDropdown.getSelectedItem() == "eval") {// TODO
+                } else if (commandDropdown.getSelectedItem() == "rescore") {
+                    File[] strucFiles = strucFileChooser.getFiles();
+                    if(options.addButton.getModel().isPressed()){
+                        p2Rank.rescore(makeDatasetFile(outDir.getText(),strucFiles).getAbsolutePath(),
+                                "-o \"" + outDir.getText() +"\"" + options.getOptions());
+                    } else{
+                        p2Rank.rescore(makeDatasetFile(outDir.getText(),strucFiles).getAbsolutePath(),
+                                "-o \"" + outDir.getText() +"\"");
+                    }
 
-                    System.out.println("EVAL");
                 }
             }
         });
