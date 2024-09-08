@@ -235,9 +235,26 @@ public class GUI extends JFrame {
             }
         });
 
+        JMenuItem loadPDBfileItem = new JMenuItem(new AbstractAction("Load PDB file") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FileChooser pdbFile = new FileChooser();
+                pdbFile.setMultiSelect(false);
+                pdbFile.setAcceptAllFiles(false);
+                pdbFile.addFileExt("pdb");
+
+                int result = JOptionPane.showConfirmDialog(container,pdbFile,"Choose pdb file",
+                        JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
+                if(result == JOptionPane.OK_OPTION && !pdbFile.getText().isEmpty()){
+                    mainPanel.jMolPanel.setStructure(pdbFile.getFile());
+                }
+            }
+        });
+
 
         jmolMenu.add(loadP2RankItem);
         jmolMenu.add(loadP2RankDirItem);
+        jmolMenu.add(loadPDBfileItem);
 
         return jmolMenu;
     }

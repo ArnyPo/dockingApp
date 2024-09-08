@@ -35,7 +35,9 @@ public class JMolPanel extends JPanel {
         jmolPanel = new JmolPanel();
 
         try {
-            jmolPanel.setStructure(StructureIO.getStructure("4hhb"));
+            Structure s = StructureIO.getStructure("4hhb");
+            jmolPanel.setStructure(s);
+            structure = s;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -124,9 +126,13 @@ public class JMolPanel extends JPanel {
      * @param predictionFile vygenerovaný soubor z P2Rank (JménoStruktury_prediction.csv)
      */
     public void loadPocketPrediction(String predictionFile, File strucFile){
+        setStructure(strucFile);
+        /*
         structure = getStructureFromFile(strucFile);
         structureFilePath = strucFile.getAbsolutePath();
         jmolPanel.getViewer().evalString("load " + strucFile.getAbsolutePath());
+
+         */
 
         P2RankPrediction prediction = new P2RankPrediction(predictionFile, structure);
 
@@ -202,5 +208,16 @@ public class JMolPanel extends JPanel {
 
     public String getStructureFilePath(){
         return structureFilePath;
+    }
+
+    /**
+     * Zobrazí novou strukturu z PDB souboru
+     * @param strucFile PDB soubor se strukturou
+     */
+    public void setStructure(File strucFile) {
+        structure = getStructureFromFile(strucFile);
+        structureFilePath = strucFile.getAbsolutePath();
+        jmolPanel.getViewer().evalString("load " + strucFile.getAbsolutePath());
+
     }
 }
