@@ -14,7 +14,6 @@ import java.util.List;
  * Třída pro spouštění příkazů na shell/cmd
  */
 public class CmdExec {
-    // TODO vlastní working directory, a IO redirect
     /**
      * Zjištěný operační systém - win/lin
      */
@@ -109,7 +108,6 @@ public class CmdExec {
         protected Integer doInBackground() throws Exception {
             List<String> localCommands = new ArrayList<>(List.copyOf(commands));
             localCommands.addAll(smartSplit(cmd));
-            //localCommands.forEach(System.out::println); // DEBUG
 
             ProcessBuilder builder = new ProcessBuilder(localCommands);
             builder.redirectErrorStream(true);  // Redirect error stream to output stream
@@ -131,7 +129,6 @@ public class CmdExec {
             }
 
             exitCode = process.waitFor();
-            System.out.println("Command executed with exit code: " + exitCode); // DEBUG
             return exitCode;
         }
 
@@ -159,7 +156,6 @@ public class CmdExec {
 
             }
             publish("CANCELED");
-            System.out.println("CANCELED"); // DEBUG
         }
     }
 

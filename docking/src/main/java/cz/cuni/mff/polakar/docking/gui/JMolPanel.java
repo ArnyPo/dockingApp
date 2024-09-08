@@ -93,7 +93,7 @@ public class JMolPanel extends JPanel {
                 pdbReader.setFileParsingParameters(params);
                 structure = pdbReader.getStructure(file);
             } else {
-                throw new IllegalArgumentException("Unsupported file format: " + fileExtension); // DEBUG
+                throw new IllegalArgumentException("Unsupported file format: " + fileExtension);
             }
 
         } catch (Exception e) {
@@ -155,7 +155,6 @@ public class JMolPanel extends JPanel {
             jmolCMD.append(getRandomColor()).append(";");
             jmolCMD.append("color translucent 1;");
             jmolCMD.append("halo on; ");
-            System.out.println(jmolCMD); // DEBUG
             jmolPanel.evalString(jmolCMD.toString());
         }
 

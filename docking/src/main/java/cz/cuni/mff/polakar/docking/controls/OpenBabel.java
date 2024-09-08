@@ -10,7 +10,7 @@ import java.util.Optional;
  * Pro více informací o jednotlivých formátech atp. navštivte <code>obabel -H</code>.
  */
 public class OpenBabel {
-    private static CmdExec exec;
+    private CmdExec exec;
     public OpenBabel(){
         exec = new CmdExec("obabel");
     }
@@ -20,7 +20,7 @@ public class OpenBabel {
      * @param filePath soubor, který bude konvertován
      * @param outDir složka, ve které bude nový soubor uložen
      */
-    public static void convertToPDBQT(File filePath, String outDir){
+    public void convertToPDBQT(File filePath, String outDir){
         String ext = Optional.of(filePath.getAbsolutePath())
                 .filter(f -> f.contains("."))
                 .map(f -> f.substring(filePath.getAbsolutePath().lastIndexOf(".") + 1)).get();
@@ -43,7 +43,7 @@ public class OpenBabel {
      * @param file soubor, který bude konvertován
      * @param outFile jméno nového soboru včetně nové přípony
      */
-    public static void convert(String file, String outFile){
+    public void convert(String file, String outFile){
         exec.exec(file + " -O " + outFile , "OBABEL CONVERTOR");
     }
 }

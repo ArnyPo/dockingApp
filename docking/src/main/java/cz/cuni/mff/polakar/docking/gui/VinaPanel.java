@@ -38,7 +38,7 @@ public class VinaPanel extends JPanel {
         this.add(new JLabel("Ligand file (PDBQT):"));
         ligandFileField = new FileChooser();
         ligandFileField.addFileExt("pdbqt");
-        ligandFileField.setMultiSelect(true); // TODO handling of multiple files
+        ligandFileField.setMultiSelect(false); // xTODO handling of multiple files
         this.add(ligandFileField);
 
         // Center coordinates cx, cy, cz
@@ -102,15 +102,6 @@ public class VinaPanel extends JPanel {
         syField.setText(String.valueOf(size.y));
         szField.setText(String.valueOf(size.z));
 
-        /* TODO - p2rank dir není - takže buď odstranit nebo nějak jinka vymyslet
-        int exit = oBabel.convertToPDBQT(new File(structureFilePath), p2rankDir.getAbsolutePath());
-        if(exit != 0){
-            throw new RuntimeException("PDBQT conversion failed"); // DEBUG
-        }
-        receptorFileField.setText(OpenBabel.getPDBQTFileName(structureFilePath));
-
-         */
-
     }
     /**
      * Z souborů vygenerovaných P2Rank vybere data o pozici jednolivých
@@ -141,17 +132,8 @@ public class VinaPanel extends JPanel {
         szField.setText(String.valueOf(size.z));
 
         oBabel.convertToPDBQT(new File(structureFile), p2rankDir.getAbsolutePath());
-        /*
-        int exit = oBabel.convertToPDBQT(new File(structureFile), p2rankDir.getAbsolutePath());
-        if(exit != 0){
-            throw new RuntimeException("PDBQT conversion failed"); // DEBUG
-        }
 
-         */
         receptorFileField.setText(OpenBabel.getPDBQTFileName(structureFile));
-
-        outFileField.setText("C:\\Users\\marti\\Desktop\\prank_test\\2\\out.txt"); // DEBUG
-        ligandFileField.setText("C:\\Users\\marti\\Desktop\\SKOLA\\cuni\\SKOLA 2023-2024\\MeetEU\\meeteu\\ligands\\t100\\1199.pdbqt"); // DEBUG
 
     }
 

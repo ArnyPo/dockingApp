@@ -26,7 +26,7 @@ public class FileChooser extends JPanel {
         });
         this.add(fileChooserButton);
 
-        fileInfoDisplay = new JTextArea(3,10); // FIXME toto není moc flexibliní
+        fileInfoDisplay = new JTextArea(3,10);
         fileInfoDisplay.setEditable(false);
         fileInfoDisplay.setAutoscrolls(true);
         fileInfoDisplay.setLineWrap(true);
