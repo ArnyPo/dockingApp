@@ -1,0 +1,1 @@
+java -cp p2rank_2.4.1/bin/p2rank.jar:p2rank_2.4.1/bin/lib/* cz.siret.prank.program.Main "$@"
