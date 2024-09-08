@@ -1,11 +1,11 @@
 package cz.cuni.mff.polakar.docking.gui;
 
 import cz.cuni.mff.polakar.docking.controls.OpenBabel;
+import cz.cuni.mff.polakar.docking.controls.Vina;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.File;
 
 
 /**
@@ -86,12 +86,14 @@ public class GUI extends JFrame {
                 }
             }
         });
+        /*
         JMenuItem computeSizeItem = new JMenuItem(new AbstractAction("Compute search size") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO
+
             }
         });
+         */
         JMenuItem resetItem = new JMenuItem(new AbstractAction("Reset panel") {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -124,16 +126,27 @@ public class GUI extends JFrame {
 
                 if(result == JOptionPane.OK_OPTION){
                     OpenBabel openBabel = new OpenBabel();
-                    //int exitCode = openBabel.convertToPDBQT(fc.getFile(), outDir.getText());
                     openBabel.convertToPDBQT(fc.getFile(), outDir.getText());
-                    int exitCode = 0; // Debug
-                    if(exitCode == 0){
-                        String newPDBQT = outDir.getText() + "/" + fc.getFile().getName() + ".pdbqt";
-                        if(new File(newPDBQT).exists()){
-                            System.out.println("NEW FILE EXISTS: " + newPDBQT);
-                        }
-                        mainPanel.vinaPanel.setReceptorFileField(newPDBQT);
-                    }
+
+                    String newPDBQT = outDir.getText() + "/" + fc.getFile().getName() + ".pdbqt";
+                    mainPanel.vinaPanel.setReceptorFileField(newPDBQT);
+
+                }
+            }
+        });
+
+        JMenuItem runConfigItem = new JMenuItem(new AbstractAction("Run from config") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FileChooser configFile = new FileChooser();
+                configFile.setMultiSelect(false);
+                configFile.setAcceptAllFiles(true);
+
+                int result = JOptionPane.showConfirmDialog(container,configFile,"Choose config file",
+                        JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
+                if(result == JOptionPane.OK_OPTION && !configFile.getText().isEmpty()){
+                    Vina vina = new Vina();
+                    vina.runConfig(configFile.getFile().getAbsolutePath());
                 }
             }
         });
@@ -141,9 +154,10 @@ public class GUI extends JFrame {
         vinaMenu.add(openVinaItem);
         vinaMenu.add(loadPrankItem);
         vinaMenu.add(loadPrankDirItem);
-        //DELETE vinaMenu.add(computeSizeItem); ?
-        vinaMenu.add(resetItem);
         vinaMenu.add(addPDBfileItem);
+        vinaMenu.add(runConfigItem);
+        vinaMenu.add(resetItem);
+
 
         return vinaMenu;
     }
@@ -201,7 +215,6 @@ public class GUI extends JFrame {
 
                 if (result ==  JOptionPane.OK_OPTION){
                     mainPanel.jMolPanel.loadPocketPrediction(predictionFile.getFile(), pdbFile.getFile());
-                    // DEBUG mainPanel.jMolPanel.loadPocketPrediction("C:\\Users\\marti\\Desktop\\prank_test\\2\\7rdy.pdb_predictions.csv", new File("C:\\Users\\marti\\Desktop\\prank_test\\struc\\7rdy.pdb"));
                 }
 
 
@@ -231,6 +244,7 @@ public class GUI extends JFrame {
 
     private static JMenu addObabelMenu(){
        JMenu obabelMenu = new JMenu("Obabel");
+       OpenBabel babel = new OpenBabel();
 
 
        JMenuItem convertItem = new JMenuItem(new AbstractAction("Covert files") {
@@ -262,7 +276,7 @@ public class GUI extends JFrame {
                        return;
                    }
 
-                   OpenBabel.convert(fileToConvert.getFile().getAbsolutePath(),finalDir.getText() + newFileName.getText());
+                   babel.convert(fileToConvert.getFile().getAbsolutePath(),finalDir.getText() + newFileName.getText());
                }
            }
        });

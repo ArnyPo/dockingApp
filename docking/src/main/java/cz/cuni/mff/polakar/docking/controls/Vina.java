@@ -1,7 +1,5 @@
 package cz.cuni.mff.polakar.docking.controls;
 
-import javax.vecmath.Point3d;
-
 /**
  * Implementace AutoDock Vina
  */
@@ -15,16 +13,8 @@ public class Vina {
      * Spuštěí AutoDock Vina jen s konfikugračním souborem
      * @param configPath konfigurační soubor
      */
-    public void runConfig(String configPath){ // TODO implementace
+    public void runConfig(String configPath){
         exec.exec("--config " + configPath, "AUTODOCK VINA");
-    }
-
-    public void run(String receptorPath, String ligandPath, String outPath, int cx, int cy, int cz, int sx, int sy, int sz){ // DELETE?
-        String cmd = "--receptor " + receptorPath + " --ligand " + ligandPath +
-                " --center_x " + cx + " --center_y " + cy +" --center_z " + cz +
-                " --size_x " + sx + " --size_y " + sy + " --size_z " + sz +
-                " --out " + outPath;
-        exec.exec(cmd, "AUTODOCK VINA");
     }
 
     /**
@@ -47,10 +37,6 @@ public class Vina {
                 " --out \"" + outPath + "\"";
         System.out.println(cmd);
         exec.exec(cmd, "AUTODOCK VINA");
-    }
-    public void run(String receptorPath, String ligandPath, String outPath,
-                    Point3d center, Point3d size){ // TODO implementace
-
     }
 
 }
