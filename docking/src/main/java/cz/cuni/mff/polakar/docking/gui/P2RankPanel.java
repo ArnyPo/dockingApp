@@ -78,6 +78,12 @@ public class P2RankPanel extends JPanel {
         this.add(executeButton);
     }
 
+    /**
+     * Vytvoří dataset soubor (dataset.ds) pro spuštění P2Rank s více soubory
+     * @param outDir output složka
+     * @param strucFiles soubory se strukturami
+     * @return dataset soubor
+     */
     private File makeDatasetFile(String outDir, File[] strucFiles){
         File dsFile = new File(outDir + "/dataset.ds");
         try {
@@ -101,6 +107,9 @@ public class P2RankPanel extends JPanel {
         return dsFile;
     }
 
+    /**
+     * JPanel s možnostvi vložit další možnosti pro spuštění P2Rank
+     */
     private static class ExtraOptions extends JPanel {
 
         private JButton addButton;
@@ -132,14 +141,12 @@ public class P2RankPanel extends JPanel {
         }
 
         private void addInputFields() {
-            // Config text field
             configField = new FileChooser();
             configField.setAcceptAllFiles(true);
             configField.setMultiSelect(false);
             configField.setBorder(BorderFactory.createTitledBorder("Config"));
             this.add(configField);
 
-            // Model file
             modelFile = new FileChooser();
             modelFile.setAcceptAllFiles(true);
             modelFile.setMultiSelect(false);
@@ -147,7 +154,6 @@ public class P2RankPanel extends JPanel {
             this.add(modelFile);
 
 
-            // Threads text field (only accepts numbers)
             threadsField = new JTextField(20);
             threadsField.setBorder(BorderFactory.createTitledBorder("Threads"));
             threadsField.addKeyListener(new KeyAdapter() {
@@ -160,22 +166,23 @@ public class P2RankPanel extends JPanel {
             });
             this.add(threadsField);
 
-            // Visualization selection combo box
             String[] visualizations = {"True", "False"};
             visualizationComboBox = new JComboBox<>(visualizations);
             visualizationComboBox.setBorder(BorderFactory.createTitledBorder("Visualization"));
             this.add(visualizationComboBox);
 
-            // Other options text field
             otherOptionsField = new JTextField(20);
             otherOptionsField.setBorder(BorderFactory.createTitledBorder("Additional Options"));
             this.add(otherOptionsField);
 
-            // Refresh the panel to display new components
             this.revalidate();
             this.repaint();
         }
 
+        /**
+         * Vrátí možnosti jako <code>String</code> oddělené mezerami
+         * @return možnosti
+         */
         public String getOptions(){
             StringBuilder sb = new StringBuilder();
 

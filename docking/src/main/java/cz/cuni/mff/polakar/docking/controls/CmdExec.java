@@ -1,4 +1,4 @@
-package cz.cuni.mff.polakar.docking.utils;
+package cz.cuni.mff.polakar.docking.controls;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,14 +15,22 @@ import java.util.List;
  */
 public class CmdExec {
     // TODO vlastní working directory, a IO redirect
+    /**
+     * Zjištěný operační systém - win/lin
+     */
     public String os;
-    /** Příkazy závislé na OS.
+    /** Příkazy závislé na OS + samotný přkaz
      */
     private List<String> commands;
     public CmdExec(){
         commands = new ArrayList<>();
         resolveOS();
     }
+
+    /**
+     * Inicializátor s příponou programu, které bude spouštěn
+     * @param prefix jméno programu (pokud je v PATH) jinak pustitelný soubor
+     */
     public CmdExec(String prefix){
         commands = new ArrayList<>();
         resolveOS();
@@ -84,7 +92,7 @@ public class CmdExec {
     }
 
     /**
-     * TODO
+     * Implementace SwingWorker, ve které běží procesy nezávisle na samotné aplikaci
      */
     private class Worker extends SwingWorker<Integer, String>{
         private int exitCode = -1;

@@ -1,7 +1,6 @@
 package cz.cuni.mff.polakar.docking.controls;
 
 import cz.cuni.mff.polakar.docking.gui.GUI;
-import cz.cuni.mff.polakar.docking.utils.CmdExec;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,14 +12,15 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.concurrent.*;
 
+/**
+ * Spouští GUI
+ */
 public class Main {
     public static void main(String[] args) {
         new GUI();
-
-        //new Frame1();
     }
 }
-
+/* DELETE
 class Executor extends SwingWorker<Integer, String> implements Callable<Void> {
     Frame2 frame;
     int exitCode;
@@ -221,3 +221,5 @@ class Frame2 extends JFrame{
     }
 
 }
+
+ */

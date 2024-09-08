@@ -21,11 +21,14 @@ import java.nio.file.Path;
 import java.util.Random;
 import java.util.stream.Stream;
 
+/**
+ * JPanel komponenta pro zobrazení JMol bizualiace a její ovládání
+ */
 public class JMolPanel extends JPanel {
-    static JTextField jmolCommandField;
-    static JmolPanel jmolPanel;
-    static Structure structure;
-    String structureFilePath;
+    private JTextField jmolCommandField;
+    private JmolPanel jmolPanel;
+    private Structure structure;
+    private String structureFilePath;
     public JMolPanel(){
         this.setLayout(new BorderLayout());
 
@@ -53,7 +56,10 @@ public class JMolPanel extends JPanel {
         this.add(commandPanel,BorderLayout.SOUTH);
     }
 
-    static class JmolCommandAction extends AbstractAction{
+    /**
+     * Spustí JMol příkaz
+     */
+    private class JmolCommandAction extends AbstractAction{
         @Override
         public void actionPerformed(ActionEvent e) {
             jmolPanel.evalString(jmolCommandField.getText());
@@ -61,15 +67,11 @@ public class JMolPanel extends JPanel {
         }
     }
 
-    public void setStructure(String structureName) throws Exception { // DELETE
-        try {
-            structure = StructureIO.getStructure(structureName);
-        } catch (IOException | StructureException e) {
-            throw new Exception("Error occurred during loading of structure: " + structureName + " - " + e);
-            // DEBUG? System.err.println("Error occurred during loading of structure: " + structureName + " - " + e);
-        }
-        jmolPanel.setStructure(structure);
-    }
+    /**
+     * Nastaví strukturu k zobrazení ze souboru
+     * @param file soubor se strukturou (pdb/cif/mmcif)
+     * @return struktura
+     */
     public static Structure getStructureFromFile(File file) {
         Structure structure = null;
         try {
@@ -101,6 +103,11 @@ public class JMolPanel extends JPanel {
         return structure;
     }
 
+    /**
+     * Zjistí příponu souboru
+     * @param file soubor
+     * @return přípona, prázdný string, pokud žádná přípona
+     */
     private static String getFileExtension(File file) {
         String fileName = file.getName();
         int dotIndex = fileName.lastIndexOf('.');
@@ -111,7 +118,7 @@ public class JMolPanel extends JPanel {
     }
 
     /**
-     * Z prediction souboru, který vygeneruje P2Rank metoda extrahuje jednotlivé pockety a obarví
+     * Z prediction souboru, který vygeneruje P2Rank, metoda extrahuje jednotlivé pockety a obarví
      * atomy, které těmto pocketům náleží. Ke správné funkconalitě je nutné, aby byl vložen dobré pdb/
      * cif/mmcif soubor, jinak ho to nanačte.
      * @param predictionFile vygenerovaný soubor z P2Rank (JménoStruktury_prediction.csv)
@@ -153,19 +160,40 @@ public class JMolPanel extends JPanel {
         }
 
     }
+
+    /**
+     * Z prediction souboru, který vygeneruje P2Rank, metoda extrahuje jednotlivé pockety a obarví
+     * atomy, které těmto pocketům náleží. Ke správné funkconalitě je nutné, aby byl vložen dobré pdb/
+     * cif/mmcif soubor, jinak ho to nanačte.
+     * @param predictionFile vygenerovaný soubor z P2Rank (JménoStruktury_prediction.csv)
+     * @param strucFile soubor se strukturou
+     */
     public void loadPocketPrediction(File predictionFile, File strucFile){
         loadPocketPrediction(predictionFile.getAbsolutePath(), strucFile);
     }
 
+    /**
+     * Ze standardní vygenerované složky P2Rank extrahuje jednotlivé pockety a obarví atmoy,
+     * které těmto pockeům náleží.
+     * @param p2rankDir složka s výsledky z P2Rank
+     */
     public void loadPredictionFromDir(File p2rankDir){
         String[] out = P2RankPrediction.getPredictionStructureFiles(p2rankDir);
         loadPocketPrediction(out[0],new File(out[1]));
     }
 
+    /**
+     *
+     * @return používaná struktura
+     */
     public Structure getStructure() {
         return structure;
     }
 
+    /**
+     * vygeneruje náhodou barvu v RGB
+     * @return náhodná barva ve formátu [R,G,B]
+     */
     private String getRandomColor(){
         Random r = new Random();
         return "[" + r.nextFloat() +

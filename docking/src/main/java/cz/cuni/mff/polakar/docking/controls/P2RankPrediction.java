@@ -22,20 +22,49 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+/**
+ * Parsování výsledků z P2Rank
+ */
 public class P2RankPrediction {
-    static Map<Integer, Float> score = new HashMap<>();
-    static Map<Integer, Float> probability = new HashMap<>();
-    static Map<Integer, Point3d> center = new HashMap<>();
-    static Map<Integer, Integer[]> pocketAtomIDs = new HashMap<>();
-    static String predictionFile;
-    static Map<Integer, Point3d> pocketSize = new HashMap<>();
+    /**
+     * PocketID - Score
+     */
+    private final Map<Integer, Float> score;
+    /**
+     * PocketID - Probability
+     */
+    private final Map<Integer, Float> probability;
+    /**
+     * PocketID - Center
+     */
+    private final Map<Integer, Point3d> center;
+    /**
+     * PocketID - ID jednotlivých atomů v pocketu
+     */
+    private final Map<Integer, Integer[]> pocketAtomIDs;
+    /**
+     * soubor s prediction
+     */
+    private final String predictionFile;
+    /**
+     * PocketID - Velikost pocketu
+     */
+    private final Map<Integer, Point3d> pocketSize;
 
     public P2RankPrediction(String predictionFilePath, Structure structure) {
         predictionFile = predictionFilePath;
+        score = new HashMap<>();
+        probability = new HashMap<>();
+        center = new HashMap<>();
+        pocketAtomIDs = new HashMap<>();
+        pocketSize = new HashMap<>();
         readFile();
         computePocketSize(structure);
     }
 
+    /**
+     * Přečte a analyzuje prediction soubor
+     */
     private void readFile() {
         try (CSVReader reader = new CSVReaderBuilder(new FileReader(predictionFile)).withSkipLines(1).build()) {
             String[] nextLine;
@@ -69,6 +98,10 @@ public class P2RankPrediction {
         }
     }
 
+    /**
+     * Vypočítá velikost jednolivých pocketů na základě struktury
+     * @param struc stuktura
+     */
     private void computePocketSize(Structure struc){
         // mapa se všemi atomy v pdb/cif souboru
         Map<Integer, Point3d> atomMap = new HashMap<>();
@@ -91,10 +124,16 @@ public class P2RankPrediction {
         }
     }
 
+    /**
+     * Najde maximální vzádlenost mezi středem pocketu a bodem
+     * @param points body
+     * @param pocket id pocketu
+     * @return maximální vzdáleost
+     */
     private Point3d findExtremes(Point3d[] points, int pocket){
-        Double x = Double.MIN_NORMAL;
-        Double y = Double.MIN_NORMAL;
-        Double z = Double.MIN_NORMAL;
+        double x = Double.MIN_NORMAL;
+        double y = Double.MIN_NORMAL;
+        double z = Double.MIN_NORMAL;
         Point3d center = getCenter(pocket);
 
         for(Point3d p: points){
@@ -105,6 +144,11 @@ public class P2RankPrediction {
         return new Point3d(x,y,z);
     }
 
+    /**
+     * V standartní složce s výsledky z P2Rank najde soubor s pockety a se strukturou
+     * @param p2rankDir složka s výsledyk P2Rank
+     * @return (0) prediction file,  (1) structure file
+     */
     public static String[] getPredictionStructureFiles(File p2rankDir){
         String dir = p2rankDir.getAbsolutePath();
         String predictionFile = null;
@@ -152,13 +196,6 @@ public class P2RankPrediction {
         return new String[]{predictionFile,structureFile};
     }
 
-    public float getProbability(int pocket) {
-        return probability.get(pocket);
-    }
-
-    public float getScore(int pocket) {
-        return score.get(pocket);
-    }
 
     public Point3d getCenter(int pocket) {
         return center.get(pocket);

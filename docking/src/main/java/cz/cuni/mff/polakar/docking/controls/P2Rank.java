@@ -1,15 +1,5 @@
 package cz.cuni.mff.polakar.docking.controls;
 
-import com.opencsv.CSVReader;
-import com.opencsv.CSVReaderBuilder;
-import com.opencsv.exceptions.CsvValidationException;
-import cz.cuni.mff.polakar.docking.utils.CmdExec;
-
-import javax.vecmath.Point3d;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -23,13 +13,29 @@ public class P2Rank {
         else{exec.setPrefix("./prank.sh");}
     }
 
+    /**
+     * Spuštění plného příkazu predict - se všemi možnými options
+     * @param dataset dataset soubor se seznamem struktur
+     * @param options options
+     */
     public void predict(String dataset, String options){
         exec.exec("predict" + " \"" + dataset + "\" " + options,"PRANK PREDICTION");
     }
 
+    /**
+     * Spuštění příkazu predict v nejjednodušší formě - jen jeden soubor se strukturou a místo pro output
+     * @param pdbFile PDB soubor
+     * @param outFile složka pro output
+     */
     public void predictSimple(String pdbFile, String outFile){
         exec.exec("predict" + " -f \"" + pdbFile + "\" -o \"" + outFile+"\"","PRANK PREDICTION");
     }
+
+    /**
+     * Spuštění příkazu rescore
+     * @param dataset dataset soubor se seznamem struktur
+     * @param options options
+     */
     public void rescore(String dataset, String options){
         exec.exec("rescore" + " \"" + dataset + "\" " + options,"PRANK RESCORE");
     }

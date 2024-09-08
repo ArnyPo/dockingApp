@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<h1>Docking Aplikace</h1>
+<p>
+    Tato aplikace je zaměřená na spojení nejpoužívanějších programů v molekulrním dockování - AutoDock Vina a P2Rank,
+    které se vzájemně doplňují.
+</p>
+<p>
+    <b>P2Rank</b> je aplikace, která umí mimo jiné předpovídat možná vazebá místa ve strukturách. Tato vazebná místa
+    ale nejsou všechna stejně dobrá a P2Rank je umí rozdělovat a seřazovat.
+</p>
+<p>
+    <b>AutoDock Vina</b> je další aplikace, která umí velmi efektivně určit, jestli je nějaký ligand vhodný pro dané
+    vazebné místo. Umí vždy vyhodnotit různé konformace a prostorové otočení ligandů, což přidává na přesnosti.
+</p>
+<br>
+<p>
+    Právě propojení těchto dvou programů je velmi užitečné a je výhodou, že jejich výsledky mohou být jednodušše
+    vizualizovány přío v apliakci. Vizualizace je dělána přes knihovnu JMol, která má svůj vlastní skriptotací
+    jazyk (podobný jako má PyMol), kterým lze vše ovládat.
+</p>
+<p>
+    Aplikace ještě využívá aplikace OpenBabel, která umí jednoduše a rychle konvertovat různé typy souborů. Pro tuto
+    aplikaci je nutná konverze souborů se strukturami do souborů typu PDBQT a právě to knihovna OpenBabel umí.
+</p>
+</body>
+</html>

@@ -65,7 +65,7 @@ public class GUI extends JFrame {
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
                 if (result ==  JOptionPane.OK_OPTION){
-                    mainPanel.vinaPanel.loadFromP2Rank(predictionFile.getFiles()[0],
+                    mainPanel.vinaPanel.loadFromP2Rank(predictionFile.getFile(),
                             mainPanel.jMolPanel.getStructure(),
                             mainPanel.jMolPanel.getStructureFilePath());
                 }

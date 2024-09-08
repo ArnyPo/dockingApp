@@ -9,10 +9,6 @@ import javax.swing.*;
 import javax.vecmath.Point3d;
 import java.awt.*;
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.stream.Stream;
 
 /**
  * Panel obsluhuje základní kontrolu programmu AutoDock Vina
@@ -116,6 +112,12 @@ public class VinaPanel extends JPanel {
          */
 
     }
+    /**
+     * Z souborů vygenerovaných P2Rank vybere data o pozici jednolivých
+     * pocketů a vyplní velikost boxu, ve kterém bude AutoDock Vina
+     * dockovat jednotlivé ligandy.
+     * @param p2rankDir cesta k složce s výstupy z P2Rank
+     */
     public void loadFromP2Rank(File p2rankDir){
         String[] out = P2RankPrediction.getPredictionStructureFiles(p2rankDir);
         String predictionFile = out[0];
@@ -153,6 +155,9 @@ public class VinaPanel extends JPanel {
 
     }
 
+    /**
+     * Spustí AutoDock Vina
+     */
     private void compute() {
 
         String receptorFile = receptorFileField.getText();
@@ -184,18 +189,7 @@ public class VinaPanel extends JPanel {
         }
 
         Vina vina = new Vina();
-        vina.runReq(receptorFile, ligandFile,outFile,cx,cy,cz,sx,sy,sz);
-
-        // DELETE Placeholder for actual computation
-        /*
-        JOptionPane.showMessageDialog(this, "Computation started with the following parameters:\n" +
-                "Receptor file: " + receptorFile + "\n" +
-                "Ligand file: " + ligandFile + "\n" +
-                "Center: (" + cx + ", " + cy + ", " + cz + ")\n" +
-                "Size: (" + sx + ", " + sy + ", " + sz + ")\n" +
-                "Output file: " + outFile);
-
-         */
+        vina.run(receptorFile, ligandFile,outFile,cx,cy,cz,sx,sy,sz);
     }
 
     public void setReceptorFileField(String filePath){

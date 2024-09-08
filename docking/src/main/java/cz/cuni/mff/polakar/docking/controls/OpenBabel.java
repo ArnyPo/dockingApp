@@ -1,7 +1,5 @@
 package cz.cuni.mff.polakar.docking.controls;
 
-import cz.cuni.mff.polakar.docking.utils.CmdExec;
-
 import java.io.File;
 import java.util.Optional;
 
@@ -15,12 +13,6 @@ public class OpenBabel {
     private static CmdExec exec;
     public OpenBabel(){
         exec = new CmdExec("obabel");
-    }
-
-    public void convertPDBtoPDBQT(String pdbFile, String outDir){ // DELETE
-        exec.exec("-i pdb \"" + pdbFile + "\" " +
-                "-o pdbqt -O \"" + outDir + "/" + pdbFile + ".pdb\"",
-                "OBABEL CONVERTOR PDB TO PDBQT");
     }
 
     /**
